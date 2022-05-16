@@ -1,0 +1,14 @@
+.contactListItemButton {
+  color: rgb(255, 254, 254);
+  background-color: rgb(247, 113, 113);
+  border: 1px solid rgb(79, 77, 77);
+  border-radius: 5px;
+
+  padding: 5px;
+
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.contactListItemButton:hover {
+  background-color: rgb(247, 90, 90);
+}
