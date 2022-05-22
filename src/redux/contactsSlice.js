@@ -20,6 +20,7 @@ const contactsSlice = createSlice({
         contact => contact.id !== action.payload
       );
     },
+
     addContact(state, action) {
       const { name, number } = action.payload;
       const contact = {
@@ -27,11 +28,9 @@ const contactsSlice = createSlice({
         name,
         number,
       };
-
-      state.items.some(contact => contact.name === name)
-        ? alert(`${name} is already in contacts`)
-        : (state.items = [contact, ...state.items]);
+      state.items = [contact, ...state.items];
     },
+
     changeFilter(state, action) {
       state.filter = action.payload;
     },
