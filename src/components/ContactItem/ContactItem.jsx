@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
 import css from './ContactItem.module.css';
+import { useDeleteContactMutation } from 'redux/contactsApiSlice';
 
-export default function ContactItem({ name, number, onDeleteContact }) {
+export default function ContactItem({ name, number, id }) {
+  const [deleteContact, { isLoading }] = useDeleteContactMutation();
   return (
     <>
       <span>
@@ -10,7 +12,8 @@ export default function ContactItem({ name, number, onDeleteContact }) {
       <button
         className={css.contactListItemButton}
         type="button"
-        onClick={onDeleteContact}
+        onClick={() => deleteContact(id)}
+        disabled={isLoading}
       >
         Delete
       </button>
@@ -21,5 +24,5 @@ export default function ContactItem({ name, number, onDeleteContact }) {
 ContactItem.propTypes = {
   name: PropTypes.string.isRequired,
   number: PropTypes.string.isRequired,
-  onDeleteContact: PropTypes.func.isRequired,
+  id: PropTypes.string.isRequired,
 };

@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { nanoid } from 'nanoid';
-import { addContact, getContacts } from 'redux/contactsSlice';
 import css from './ContactForm.module.css';
+import { useGetContactsQuery } from 'redux/contactsApiSlice';
+import { useAddContactMutation } from 'redux/contactsApiSlice';
 
-export default function ContactForm({ onSubmit }) {
-  const dispatch = useDispatch();
+import Notiflix from 'notiflix';
+
+export default function ContactForm() {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
-  const contacts = useSelector(getContacts);
+
+  const { data } = useGetContactsQuery();
+  const [addContact] = useAddContactMutation();
 
   const inputNameId = nanoid();
   const inputNumberId = nanoid();
@@ -16,13 +19,21 @@ export default function ContactForm({ onSubmit }) {
   const handleNameChange = event => setName(event.target.value);
   const handleNumberChange = event => setPhone(event.target.value);
 
+  const handleAddContact = async values => {
+    try {
+      await addContact(values);
+      Notiflix.Notify.success('Contact added');
+    } catch (error) {
+      Notiflix.Notify.failure('Oops, something goes wrong');
+    }
+  };
+
   const handleSubmit = event => {
     event.preventDefault();
 
-    contacts.some(contact => contact.name === name)
-      ? alert(`${name} is already in contacts`)
-      : onSubmit({ name, phone });
-    // : dispatch(addContact({ name, number }));
+    data.some(contact => contact.name === name)
+      ? Notiflix.Notify.warning(`${name} is already in contacts`)
+      : handleAddContact({ name, phone });
 
     reset();
   };
