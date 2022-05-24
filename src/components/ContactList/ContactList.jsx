@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import css from './ContactList.module.css';
 import ContactItem from 'components/ContactItem';
 import { useSelector } from 'react-redux';
@@ -10,18 +10,13 @@ export default function ContactList() {
 
   const { data, error, isLoading } = useGetContactsQuery();
 
-  const getFilteredContacts = () => {
-    const normalizedFilter = filter.toLowerCase();
-
+  const filteredContacts = useMemo(() => {
     return (
-      !isLoading &&
-      data.filter(contact =>
-        contact.name.toLowerCase().includes(normalizedFilter)
-      )
+      data?.filter(contact =>
+        contact.name.toLowerCase().includes(filter.toLowerCase())
+      ) ?? []
     );
-  };
-
-  const filteredContacts = getFilteredContacts();
+  }, [filter, data]);
 
   return (
     <ul className={css.contactList}>
