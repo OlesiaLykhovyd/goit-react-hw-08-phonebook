@@ -3,7 +3,7 @@ import { nanoid } from 'nanoid';
 import css from './ContactForm.module.css';
 import { useGetContactsQuery } from 'redux/contactsApiSlice';
 import { useAddContactMutation } from 'redux/contactsApiSlice';
-
+import { Report } from 'notiflix';
 import Notiflix from 'notiflix';
 
 export default function ContactForm() {
@@ -32,7 +32,10 @@ export default function ContactForm() {
     event.preventDefault();
 
     data.some(contact => contact.name === name)
-      ? Notiflix.Notify.warning(`${name} is already in contacts`)
+      ? Report.warning(
+          `${name} is already in contacts`,
+          'Please enter another name'
+        )
       : handleAddContact({ name, phone });
 
     reset();
