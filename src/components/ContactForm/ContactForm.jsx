@@ -8,7 +8,7 @@ import Notiflix from 'notiflix';
 
 export default function ContactForm() {
   const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
+  const [number, setNumber] = useState('');
 
   const { data } = useGetContactsQuery();
   const [addContact] = useAddContactMutation();
@@ -17,7 +17,7 @@ export default function ContactForm() {
   const inputNumberId = nanoid();
 
   const handleNameChange = event => setName(event.target.value);
-  const handleNumberChange = event => setPhone(event.target.value);
+  const handleNumberChange = event => setNumber(event.target.value);
 
   const handleAddContact = async values => {
     try {
@@ -36,14 +36,14 @@ export default function ContactForm() {
           `${name} is already in contacts`,
           'Please enter another name'
         )
-      : handleAddContact({ name, phone });
+      : handleAddContact({ name, number });
 
     reset();
   };
 
   const reset = () => {
     setName('');
-    setPhone('');
+    setNumber('');
   };
 
   return (
@@ -65,7 +65,7 @@ export default function ContactForm() {
       <input
         className={css.contactFormInput}
         id={inputNumberId}
-        value={phone}
+        value={number}
         type="tel"
         name="number"
         pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"

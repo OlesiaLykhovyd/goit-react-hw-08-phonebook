@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import css from './ContactList.module.css';
 import ContactItem from 'components/ContactItem';
 import { useSelector } from 'react-redux';
@@ -8,7 +8,11 @@ import { getFilter } from 'redux/filterSlice';
 export default function ContactList() {
   const filter = useSelector(getFilter);
 
-  const { data, error, isLoading } = useGetContactsQuery();
+  const { data, error, isLoading, refetch } = useGetContactsQuery();
+
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
 
   const filteredContacts = useMemo(() => {
     return (
@@ -24,9 +28,9 @@ export default function ContactList() {
       {isLoading ? (
         <p>Loading...</p>
       ) : (
-        filteredContacts.map(({ id, name, phone }) => (
+        filteredContacts.map(({ id, name, number }) => (
           <li key={id} className={css.contactListItem}>
-            <ContactItem name={name} number={phone} id={id} />
+            <ContactItem name={name} number={number} id={id} />
           </li>
         ))
       )}
