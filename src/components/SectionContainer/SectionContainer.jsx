@@ -1,11 +1,15 @@
 import PropTypes from 'prop-types';
-import css from './SectionContainer.module.css';
+import { GlobalStyle } from 'components/GlobalStyle';
+import { MainSection, Container } from './SectionContainer.styled';
 
 export default function Section({ children }) {
   return (
-    <section className={css.section}>
-      <div className={css.container}>{children}</div>
-    </section>
+    <>
+      <GlobalStyle />
+      <MainSection>
+        <Container>{children}</Container>
+      </MainSection>
+    </>
   );
 }
 

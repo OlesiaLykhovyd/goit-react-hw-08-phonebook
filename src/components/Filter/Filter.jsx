@@ -1,28 +1,29 @@
 import React from 'react';
-import { nanoid } from 'nanoid';
-import css from './Filter.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeFilter, getFilter } from 'redux/filterSlice';
+
+import Form from 'react-bootstrap/Form';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function Filter() {
   const dispatch = useDispatch();
   const filter = useSelector(getFilter);
 
-  let inputFilterId = nanoid();
   const filterChange = e => dispatch(changeFilter(e.target.value));
 
   return (
-    <div className={css.filter}>
-      <label className={css.filterLabel} htmlFor={inputFilterId}>
-        Find contacts by name
-      </label>
-      <input
-        id={inputFilterId}
-        className={css.filterInput}
-        type="text"
-        value={filter}
-        onChange={filterChange}
-      />
-    </div>
+    <>
+      <Form autoComplete="off">
+        <Form.Group className="mb-3" controlId="formBasicName">
+          <Form.Label>Find contacts by name</Form.Label>
+          <Form.Control
+            type="name"
+            placeholder="Enter your name"
+            value={filter}
+            onChange={filterChange}
+          />
+        </Form.Group>
+      </Form>
+    </>
   );
 }

@@ -1,17 +1,10 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { authOperations } from 'redux/auth';
-
-const styles = {
-  form: {
-    width: 320,
-  },
-  label: {
-    display: 'flex',
-    flexDirection: 'column',
-    marginBottom: 15,
-  },
-};
+import Container from 'components/Container';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 
 export default function RegisterPage() {
   const dispatch = useDispatch();
@@ -53,41 +46,43 @@ export default function RegisterPage() {
   };
 
   return (
-    <>
-      <div>
-        <h1>Registration Page</h1>
+    <Container>
+      <Form onSubmit={handleSubmit} autoComplete="off">
+        <Form.Group className="mb-3" controlId="formBasicName">
+          <Form.Label>Name</Form.Label>
+          <Form.Control
+            type="name"
+            placeholder="Enter your name"
+            name="name"
+            value={name}
+            onChange={handleChange}
+          />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="formBasicEmail">
+          <Form.Label>Email address</Form.Label>
+          <Form.Control
+            type="email"
+            placeholder="Enter email"
+            name="email"
+            value={email}
+            onChange={handleChange}
+          />
+        </Form.Group>
 
-        <form onSubmit={handleSubmit} style={styles.form} autoComplete="off">
-          <label style={styles.label}>
-            Name
-            <input
-              type="name"
-              name="name"
-              value={name}
-              onChange={handleChange}
-            />
-          </label>
-          <label style={styles.label}>
-            Email
-            <input
-              type="email"
-              name="email"
-              value={email}
-              onChange={handleChange}
-            />
-          </label>
-          <label style={styles.label}>
-            Password
-            <input
-              type="password"
-              name="password"
-              value={password}
-              onChange={handleChange}
-            />
-          </label>
-          <button type="submit">Log In</button>
-        </form>
-      </div>
-    </>
+        <Form.Group className="mb-3" controlId="formBasicPassword">
+          <Form.Label>Password</Form.Label>
+          <Form.Control
+            type="password"
+            placeholder="Password"
+            name="password"
+            value={password}
+            onChange={handleChange}
+          />
+        </Form.Group>
+        <Button variant="outline-primary" type="submit">
+          Register
+        </Button>
+      </Form>
+    </Container>
   );
 }

@@ -1,23 +1,28 @@
 import PropTypes from 'prop-types';
-import css from './ContactItem.module.css';
+// import css from './ContactItem.module.css';
 import { useDeleteContactMutation } from 'redux/contactsApiSlice';
+import { Container } from './ContactItem.styled';
+
+import Button from 'react-bootstrap/Button';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function ContactItem({ name, number, id }) {
   const [deleteContact, { isLoading }] = useDeleteContactMutation();
   return (
-    <>
+    <Container>
       <span>
         - {name}: {number}
       </span>
-      <button
-        className={css.contactListItemButton}
+      <Button
         type="button"
-        onClick={() => deleteContact(id)}
+        variant="outline-danger"
+        size="sm"
         disabled={isLoading}
+        onClick={() => deleteContact(id)}
       >
         Delete
-      </button>
-    </>
+      </Button>
+    </Container>
   );
 }
 

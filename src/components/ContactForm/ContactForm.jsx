@@ -1,10 +1,17 @@
 import React, { useState } from 'react';
-import { nanoid } from 'nanoid';
-import css from './ContactForm.module.css';
+// import { nanoid } from 'nanoid';
+// import css from './ContactForm.module.css';
+import { FormContainer } from './ContactForm.styled';
 import { useGetContactsQuery } from 'redux/contactsApiSlice';
 import { useAddContactMutation } from 'redux/contactsApiSlice';
 import { Report } from 'notiflix';
 import Notiflix from 'notiflix';
+
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+// import Form from 'react-bootstrap/Form';
 
 export default function ContactForm() {
   const [name, setName] = useState('');
@@ -12,9 +19,6 @@ export default function ContactForm() {
 
   const { data } = useGetContactsQuery();
   const [addContact] = useAddContactMutation();
-
-  const inputNameId = nanoid();
-  const inputNumberId = nanoid();
 
   const handleNameChange = event => setName(event.target.value);
   const handleNumberChange = event => setNumber(event.target.value);
@@ -47,35 +51,39 @@ export default function ContactForm() {
   };
 
   return (
-    <form className={css.contactForm} onSubmit={handleSubmit}>
-      <label htmlFor={inputNameId}>Name</label>
-      <input
-        className={css.contactFormInput}
-        id={inputNameId}
-        value={name}
-        type="text"
-        name="name"
-        pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-        title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-        required
-        onChange={handleNameChange}
-      />
+    <FormContainer>
+      <Form onSubmit={handleSubmit} autoComplete="off">
+        <Form.Group className="mb-3" controlId="formBasicName">
+          <Form.Label>Name</Form.Label>
+          <Form.Control
+            type="name"
+            placeholder="Enter your name"
+            name="name"
+            value={name}
+            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+            required
+            onChange={handleNameChange}
+          />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="formBasicNumber">
+          <Form.Label>Phone Number</Form.Label>
+          <Form.Control
+            placeholder="Enter email"
+            value={number}
+            type="tel"
+            name="number"
+            pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+            title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+            required
+            onChange={handleNumberChange}
+          />
+        </Form.Group>
 
-      <label htmlFor={inputNumberId}>Number</label>
-      <input
-        className={css.contactFormInput}
-        id={inputNumberId}
-        value={number}
-        type="tel"
-        name="number"
-        pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-        title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-        required
-        onChange={handleNumberChange}
-      />
-      <button className={css.contactFormButton} type="submit">
-        Add Contact
-      </button>
-    </form>
+        <Button variant="outline-primary" type="submit">
+          Add Contact
+        </Button>
+      </Form>
+    </FormContainer>
   );
 }

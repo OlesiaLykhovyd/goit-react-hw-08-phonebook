@@ -6,11 +6,8 @@ export default function Navigation() {
   const isLoggedIn = useSelector(authSelectors.getIsLoggedIn);
   return (
     <nav>
-      {isLoggedIn ? (
-        <NavigationLink to="/contacts">Contacts</NavigationLink>
-      ) : (
-        <NavigationLink to="/">Home</NavigationLink>
-      )}
+      {/* <NavigationLink to="/">Home</NavigationLink> */}
+      {isLoggedIn && <NavigationLink to="/contacts">Contacts</NavigationLink>}
     </nav>
   );
 }
