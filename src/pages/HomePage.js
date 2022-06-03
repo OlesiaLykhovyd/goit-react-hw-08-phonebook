@@ -1,14 +1,14 @@
-import { Link, Outlet } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import Container from 'components/Container';
 
 export default function HomePage() {
   return (
-    <>
-      <h1>Welcome to Phonebook application.</h1>
+    <Container>
+      <h4>Welcome to Phonebook application.</h4>
       <p>
         Please <Link to="/register">register</Link> or{' '}
         <Link to="/logIn">log in</Link> to get access to the phonebook =)
       </p>
-      <Outlet />
-    </>
+    </Container>
   );
 }
