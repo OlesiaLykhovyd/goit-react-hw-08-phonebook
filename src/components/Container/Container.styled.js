@@ -14,5 +14,5 @@ export const Wrapper = styled.div`
 
 export const Title = styled.h2`
   color: black;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 `;

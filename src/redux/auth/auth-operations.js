@@ -1,5 +1,10 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import Notiflix from 'notiflix';
+
+Notiflix.Notify.init({
+  distance: '20px',
+});
 
 axios.defaults.baseURL = 'https://connections-api.herokuapp.com';
 
@@ -17,7 +22,9 @@ const register = createAsyncThunk('auth/register', async userData => {
     const { data } = await axios.post('/users/signup', userData);
     token.set(data.token);
     return data;
-  } catch (error) {}
+  } catch (error) {
+    Notiflix.Notify.failure('There is already user with this email');
+  }
 });
 
 const logIn = createAsyncThunk('auth/login', async userData => {
@@ -25,14 +32,18 @@ const logIn = createAsyncThunk('auth/login', async userData => {
     const { data } = await axios.post('/users/login', userData);
     token.set(data.token);
     return data;
-  } catch (error) {}
+  } catch (error) {
+    Notiflix.Notify.failure('Incorrect email or password');
+  }
 });
 
 const logOut = createAsyncThunk('auth/logout', async () => {
   try {
     await axios.post('/users/logout');
     token.unset();
-  } catch (error) {}
+  } catch (error) {
+    Notiflix.Notify.failure('Something goes wrong');
+  }
 });
 
 const fetchCurrentUser = createAsyncThunk(
@@ -49,10 +60,9 @@ const fetchCurrentUser = createAsyncThunk(
 
     try {
       const { data } = await axios.get('users/current');
-      // console.log(data);
       return data;
     } catch (error) {
-      // console.log(error);
+      console.log(error);
     }
   }
 );
